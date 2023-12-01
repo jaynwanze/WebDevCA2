@@ -6,7 +6,7 @@ import com.opensymphony.xwork2.ActionSupport;
 public class UserSessionManagement extends ActionSupport implements SessionAware {
 	private String username;
 	private String password;
-	private UserDAO user = new UserDAO();
+	private UserDAO user;
 	private Map<String, Object> session;
 	private String errorMessage;
 
@@ -16,7 +16,8 @@ public class UserSessionManagement extends ActionSupport implements SessionAware
 	}
 
 	public String login() {
-		user = new UserDAO();
+
+		//user = new UserDAO(connection);
 		String result = "FAILURE";
 
 		// if correct(user.checkUsername(username)) {
@@ -35,7 +36,7 @@ public class UserSessionManagement extends ActionSupport implements SessionAware
 	}
 
 	public void setUsername(String username) {
-		this.username = username;
+		this.username = username.toLowerCase();;
 	}
 
 	public String getPassword() {

@@ -10,16 +10,15 @@
 <body>
     <div class="container">
         <div class="titlebox">
-            <h1>E-Commerce Register Page</h1>
+            <h1>E-Commerce Login Page</h1>
         </div>
         <div class="divForm">
             <h3>
                 <p class="label">Enter your user and password below to be authorized</p>
             </h3>
-            <s:form action="register" method="POST">
+            <s:form action="login" method="POST">
                 <s:textfield name="username" label="Enter your username" />
                 <s:password name="password" label="Enter your password" id="user_password" />
-                <s:password name="passwordConf" label="Enter your password confirmation" id="user_password_conf" />
                 <s:submit onclick="setPasswordType()"/>
             </s:form>
             Show Password: <input type="checkbox" onclick="showPasswordToggle()" /><br>
@@ -30,8 +29,8 @@
             - No Whitespaces/Blank Input Field or Fields Permitted<br><br>
 
             <!-- Alternative Button to redirect to login page if already registered-->
-            If you are already registered, go to the login page:<br><br>
-            <input type="button" value="Login Page" onclick="window.location.href='login.jsp'" />
+            If you don't have an account, go to the registration page:<br><br>
+            <input type="button" value="Login Page" onclick="window.location.href='register.jsp'" />
         </div>
         <div id="errMsgDiv"> </div>
     </div>
@@ -50,26 +49,29 @@
 
         function showPasswordToggle() {
             var pass = document.getElementById("user_password");
-            var passConf = document.getElementById("user_password_conf");
 
-            if (pass.type === "password" && passConf.type === "password") {
+            if (pass.type === "password" ) {
                 pass.type = "text";
-                passConf.type = "text";
             } else {
                 pass.type = "password";
-                passConf.type = "password";
             }
         }
 
         function setPasswordType() {
             var pass = document.getElementById("user_password");
-            var passConf = document.getElementById("user_password_conf");
 
-            if (pass.type != "password" && passConf.type != "password") {
+            if (pass.type != "password"){
                 pass.type = "password";
-                passConf.type = "password";
             }
         }
     </script>
 </body>
 </html>
+
+
+
+
+
+
+
+
