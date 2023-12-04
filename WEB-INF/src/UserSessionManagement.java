@@ -12,6 +12,8 @@ public class UserSessionManagement extends ActionSupport implements SessionAware
 	private UserDAO user;
 	private Map<String, Object> session;
 	private String errorMessage;
+	private String logoutMessage;
+
 
 	public UserSessionManagement() {
 
@@ -20,6 +22,8 @@ public class UserSessionManagement extends ActionSupport implements SessionAware
 	public String login() {
 		String lowercaseUsername = username.toLowerCase();
 		String result = "FAILURE";
+		setLogoutMessage(null);//ensure logout message doesnt pop up while logging in
+
 		Connection connection = null;
 		;
 		// Create connection to database
@@ -69,6 +73,18 @@ public class UserSessionManagement extends ActionSupport implements SessionAware
 
 	}
 
+	public String logout() {
+		String result = "FAILURE";
+		session.clear();//clear session details
+		if (session.isEmpty()) {
+			setErrorMessage(null);
+			setLogoutMessage("You Have Sucessfully Been Logged Out");
+			return result = "SUCCESS";
+		}
+		setErrorMessage("Error Processing Request: Unable to Log User Out Of Session");
+		return result;//show some type of error message
+	}
+
 	public String getUsername() {
 		return username;
 	}
@@ -91,6 +107,13 @@ public class UserSessionManagement extends ActionSupport implements SessionAware
 
 	public String getErrorMessage() {
 		return errorMessage;
+	}
+		public String getLogoutMessage() {
+		return logoutMessage;
+	}
+
+	public void setLogoutMessage(String logoutMessage) {
+		this.logoutMessage = logoutMessage;
 	}
 
 	@Override

@@ -39,7 +39,7 @@
     <script>
         window.onload = function() {
             var errMsg = document.getElementById('errMsgDiv');
-            if ('<s:property value="errorMessage" />' === '') {
+            if ('<s:property value="errorMessage" />' == null || '<s:property value="errorMessage" />' === '' ) {
                 errMsg.style.visibility = 'hidden';
             } else {
                 errMsg.style.visibility = 'visible';

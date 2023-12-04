@@ -15,6 +15,11 @@
         <result name="SUCCESS">/homepage.jsp</result>
 	    <result name="FAILURE">/login.jsp</result>
     </action>
+
+    <action name="logout" class="UserSessionManagement" method ="logout">
+        <result name="SUCCESS">/login.jsp</result>
+	    <result name="FAILURE">/homepage.jsp</result>
+    </action>
     
 		
     </package>

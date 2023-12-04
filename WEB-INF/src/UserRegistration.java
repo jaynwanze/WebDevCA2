@@ -17,7 +17,6 @@ public class UserRegistration {
         String lowercaseUsername = username.toLowerCase();
         String result = "FAILURE";
         Connection connection = null;
-        ;
         // Create connection to database
         try {
             try {

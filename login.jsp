@@ -30,22 +30,37 @@
 
             <!-- Alternative Button to redirect to login page if already registered-->
             If you don't have an account, go to the registration page:<br><br>
-            <input type="button" value="Login Page" onclick="window.location.href='register.jsp'" />
+            <input type="button" value="Registration Page" onclick="window.location.href='index.jsp'" />
         </div>
         <div id="errMsgDiv"> </div>
+        <div id="logoutMsgDiv"> </div>
     </div>
 
     <script>
         window.onload = function() {
             var errMsg = document.getElementById('errMsgDiv');
-            if ('<s:property value="errorMessage" />' === '') {
+            if ('<s:property value="errorMessage" />' == null || '<s:property value="errorMessage" />' === '') {
                 errMsg.style.visibility = 'hidden';
             } else {
                 errMsg.style.visibility = 'visible';
                 errMsg.classList.add('errMsgBox');
                 errMsg.innerHTML = '<s:property value="errorMessage" />'
             }
+            // Logout Message
+             var logoutMsg = document.getElementById('logoutMsgDiv');
+                if ('<s:property value="logoutMessage" />' == null || '<s:property value="logoutMessage" />' === '') {
+               logoutMsg.style.visibility = 'hidden';
+                } else {
+        logoutMsg.style.visibility = 'visible';
+        logoutMsg.classList.add('logoutMsgBox');
+        logoutMsg.innerHTML = '<s:property value="logoutMessage" />';
+        // Set a timeout to hide the message after 10 seconds
+        setTimeout(function() {
+            logoutMsg.style.visibility = 'hidden';
+        }, 10000); // 10000 milliseconds = 10 seconds
         };
+        }
+     
 
         function showPasswordToggle() {
             var pass = document.getElementById("user_password");
