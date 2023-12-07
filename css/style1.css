@@ -15,38 +15,36 @@ body {
 }
 
 header {
+    font-family:serif;
     background-color: #333;
     color: #fff;
     padding: 10px;
     text-align: center;
+    
 }
 
-.nav1 {
+nav {
     background-color: #444;
     overflow: hidden;
     display: flex; 
     justify-content: space-between;
     align-items: center;
     text-align: center;
+    
 }
-.nav2 {
-    background-color: #444;
-    overflow: hidden;
-    display: flex; 
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-}
-
-
 
 nav a {
+    font-size:large;
+    font-family:serif;
+    font-style: obique;
     float: left;
     display: block;
     color: #fff;
     text-align: center;
     padding: 14px 16px;
-    text-decoration: none;
+    text-decoration:wavy;
+    cursor: pointer;
+
 }
 
 nav a:hover {
@@ -54,14 +52,19 @@ nav a:hover {
     color: #333;
 }
 
+
+
 section {
     padding: 20px;
+    
 }
 
 .homepage-content {
     display: flex;
     flex-direction: column;
     align-items: center;
+    
+    
 
 }
 
@@ -82,9 +85,51 @@ section {
     box-sizing: border-box;
     background-color: #f9f9f9;
     text-align: center;
-    width: 400px; /* Set a fixed width */
+    width: 400px; 
+    height: 60vh;
+    text-decoration: none;
+    cursor: pointer;
+    transition: background-color 0.3s;
 
 }
+.content-display {
+    margin: 0 10px;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-sizing: border-box;
+    background-color: #f9f9f9;
+    text-align: center;
+    width: 400px; 
+    height: 60vh;
+    text-decoration: none;
+    transition: background-color 0.3s;
+
+}
+
+/* Change background color on hover */
+.content-row .content-column :hover {
+    background-color: #ddd;
+}
+
+.clickable {
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+.yuhh {
+    width: 200px; /* Set the width as needed */
+    height: 100px; /* Set the height as needed */
+    background-color: #f0f0f0; /* Set the background color */
+    text-align: center;
+    line-height: 100px; /* Center the text vertically */
+    text-decoration: none;
+    color: #333;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
 
 footer {
     background-color: #333;
@@ -105,6 +150,73 @@ footer {
     border-radius: 0px;
     background-color: rgba(214, 41, 41, 0.528);
 }
+table{
+    justify-content: center;
+}
+td {
+    border: 1px solid #ddd;
+    background-color: #ddd;
+    width: 200px;
+    padding: 8px;
+    text-align: center;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
 
+th {
+    background-color: #333;
+    color: white;
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: center;
+   
+}
 
+.btn {
+	padding: 10px 40px;
+	background-color: rgb(106, 108, 108);
+	color: #FFFFFF;
+	font-style: oblique;
+	font-weight: bold;
+	border-radius: 10px;
+}
 
+.divForm {
+            width: 300px;
+            padding: 20px;
+            border: 1px solid #ccc;
+            margin-right: 20px;
+
+        }
+
+.divCard {
+            width: 300px;
+            border: 1px solid #ccc;
+            padding: 20px;
+        }
+
+label {
+            display: block;
+            margin-bottom: 5px;
+        }
+
+input {
+            width: calc(100% - 16px);
+            padding: 8px;
+            margin-bottom: 10px;
+            box-sizing: border-box;
+        }
+        .addItem-input{
+            margin: 0 10px;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box;
+            background-color: #f9f9f9;
+            text-align: center;
+            width: 600px; 
+            height: 42vh;
+            text-decoration: none;
+            transition: background-color 0.3s;
+        
+        }

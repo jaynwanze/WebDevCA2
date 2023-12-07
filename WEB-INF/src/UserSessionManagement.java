@@ -9,62 +9,74 @@ import com.opensymphony.xwork2.ActionSupport;
 public class UserSessionManagement extends ActionSupport implements SessionAware {
 	private String username;
 	private String password;
-	private UserDAO user;
+	private UserDAO userDAO;
 	private Map<String, Object> session;
+	UserProfileActions userProfileActions;
 	private String errorMessage;
 	private String logoutMessage;
+	private String successMessage;
 
 
 	public UserSessionManagement() {
 
 	}
 
+	public Connection getConnection() {
+        Connection connection = null;
+        // Create connection to database
+        try {
+            try {
+                Class.forName("com.mysql.cj.jdbc.Driver");
+            } catch (ClassNotFoundException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+            connection = DriverManager.getConnection(
+                    "jdbc:mysql://localhost:3306/ecommerce?serverTimezone=UTC", "root", "root");
+
+        } catch (SQLException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        return connection;
+    }
+
 	public String login() {
 		String lowercaseUsername = username.toLowerCase();
 		String result = "FAILURE";
-		setLogoutMessage(null);//ensure logout message doesnt pop up while logging in
-
-		Connection connection = null;
-		;
+		
 		// Create connection to database
-		try {
-			try {
-				Class.forName("com.mysql.cj.jdbc.Driver");
-			} catch (ClassNotFoundException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			connection = DriverManager.getConnection(
-					"jdbc:mysql://localhost:3306/ecommerce?serverTimezone=UTC", "root", "root");
-
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		Connection connection = getConnection();
 		// Create new userDAO instance
-		user = new UserDAO(connection);
+		userDAO = new UserDAO(connection);
 
 		// Validation
-		if (!(user.validateBlankInputLogin(lowercaseUsername, password))) {
+		if (!(userDAO.validateBlankInputLogin(lowercaseUsername, password))) {
 			setErrorMessage("Error Processing Request: No Whitespaces/Blank Input Fields");
 			return result;
-		} else if (!(user.validatePassword(password))) {
+		} else if (!(userDAO.validatePassword(password))) {
 			setErrorMessage(
 					"Error Processing Request: Password/Password Confirmation Must Be More Than 8 And Less Than 20 Characters");
 			return result;
-		} else if (!(user.checkUsernameExists(lowercaseUsername))) {
+		} else if (!(userDAO.checkUsernameExists(lowercaseUsername))) {
 			setErrorMessage("Error Processing Request: Username Does Not Exist Within Database");
 			return result;
-		} else if (!(user.checkPasswordMatches(lowercaseUsername, password))) {
+		} else if (!(userDAO.checkPasswordMatches(lowercaseUsername, password))) {
 			setErrorMessage("Error Processing Request: Password Is Incorrect");
 			return result;
-		} else if (user.checkPasswordMatches(lowercaseUsername, password)) {
+		} else if (userDAO.checkPasswordMatches(lowercaseUsername, password)) {
 			setErrorMessage(null);
-			session.put("currentUser", username);
+			setSuccessMessage(null);
+			userProfileActions = new UserProfileActions();
+			userProfileActions.setSession(session);
+			User user = userDAO.getUserProfile(lowercaseUsername);
+			session.put("currentUser", user);
 			return result = "SUCCESS";
 		}
 		// Default error message
 		setErrorMessage("Error Processing Request: Not Able To Add User Within Database");
+		setSuccessMessage(null);
+
 		// Reset user input
 		setUsername(null);
 		setPassword(null);
@@ -75,7 +87,8 @@ public class UserSessionManagement extends ActionSupport implements SessionAware
 
 	public String logout() {
 		String result = "FAILURE";
-		session.clear();//clear session details
+		session.clear();//clear session detail
+
 		if (session.isEmpty()) {
 			setErrorMessage(null);
 			setLogoutMessage("You Have Sucessfully Been Logged Out");
@@ -116,14 +129,17 @@ public class UserSessionManagement extends ActionSupport implements SessionAware
 		this.logoutMessage = logoutMessage;
 	}
 
+	public void setSuccessMessage(String successMessage) {
+        this.successMessage = successMessage;
+    }
+
+    public String getSuccessMessage() {
+        return successMessage;
+    }
+
 	@Override
 	public void setSession(Map map) {
 		session = map;
 
-	}
-
-	public Map<String, Object> getSession() {
-
-		return session; // change to true
 	}
 }

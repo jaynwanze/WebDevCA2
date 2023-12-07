@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.security.Timestamp;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -10,7 +11,8 @@ public class UserDAO {
     private Connection connection; // Database connection
 
     private String errorMessage;
-    private ArrayList<String> users = new ArrayList<String>();
+    private ArrayList<String> users;
+
 
     public UserDAO(Connection connection) {
         // Connection to database
@@ -18,11 +20,21 @@ public class UserDAO {
 
     }
 
-    public boolean validateBlankInputReg(String username, String password, String passwordConf) {
+    public boolean validateBlankInputReg(String username, String password, String passwordConf, String email, String firstName, String lastName) {
         // if user inputs is blank or has whitespaces
         if (!(username.isBlank()) && !(username.matches(".*\\s.*")) && !(password.isBlank())
                 && !(password.matches(".*\\s.*")) && !(passwordConf.isBlank())
-                && !(passwordConf.matches(".*\\s.*"))) {
+                && !(passwordConf.matches(".*\\s.*")) && !(email.isBlank()) && !(email.matches(".*\\s.*")) && !(firstName.isBlank())
+                && !(firstName.matches(".*\\s.*")) && !(lastName.isBlank())
+                && !(lastName.matches(".*\\s.*"))) {
+            return true;
+        }
+        return false;
+    }
+
+     public boolean validateLettersOnly(String firstName, String lastName) {
+        // if user inputs is letters
+        if (firstName.matches ("[a-zA-Z]+\\.?") && lastName.matches("[a-zA-Z]+\\.?")) {
             return true;
         }
         return false;
@@ -134,17 +146,20 @@ public class UserDAO {
         return false;
     }
 
-    public boolean addUserToDB(String username, String password) {
+    public boolean addUserToDB(String username, String email, String firstName, String lastName, String password) {
         PreparedStatement createUser = null;
         try {
             // Execute query to create a new user within
             // database
             createUser = connection.prepareStatement(
                     "INSERT into users "
-                            + "(username, password)" + " VALUES (?, ?)");
+                            + "(username, email, first_name, last_name, password)" + " VALUES (?, ?, ?, ?, ?)");
             // Pass in the values as paramaters into sql statement
             createUser.setString(1, username);
-            createUser.setString(2, password);
+            createUser.setString(2, email);
+            createUser.setString(3, firstName);
+            createUser.setString(4, lastName);
+            createUser.setString(5, password);
 
             int rowsUpdated = createUser.executeUpdate();
             if (rowsUpdated > 0) {
@@ -166,9 +181,92 @@ public class UserDAO {
         return false;
     }
 
+    public User getUserProfile(String username) {
+        User user;
+        PreparedStatement getUserProfile = null;
+        ResultSet rs = null;
+        try {
+            // Prepared statement to check to if user and password match
+            getUserProfile = connection
+                    .prepareStatement("SELECT username, email, first_name, last_name, created_at FROM users WHERE username = ?");
+            getUserProfile.setString(1, username);
+            // Executes sql query tocheck if username already exists /stores results in rs
+            rs = getUserProfile
+                    .executeQuery();
+        } catch (SQLException e1) {
+            // TODO Auto-generated catch block
+            e1.printStackTrace();
+        }
+        try {
+            if (rs.next()) {
+                 String email = rs.getString("email");
+                 String firstName =  rs.getString("first_name");
+                 String lastName =   rs.getString("last_name");
+                 String dateJoined = rs.getTimestamp("created_at").toString();
+                user = new User(username ,email , firstName, lastName, dateJoined);
+                return user;
+            }
+            try {
+                rs.close();
+                getUserProfile.close();
+
+            } catch (SQLException e1) {
+                e1.printStackTrace();
+            }
+        } catch (SQLException e1) {
+            e1.printStackTrace();
+        } finally {
+            try {
+                if (rs != null)
+                    rs.close();
+                if (getUserProfile != null)
+                    getUserProfile.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        return null;
+    }
+
     public ArrayList<String> getUsers() {
-        // users = getUsersfromdb()
-        return users;
+        users = new ArrayList<String>();
+
+        PreparedStatement getUsersFromDB = null;
+        ResultSet rs = null;
+        try {
+            getUsersFromDB = connection.prepareStatement("SELECT username FROM users");
+            rs = getUsersFromDB.executeQuery();
+        } catch (SQLException e1) {
+            e1.printStackTrace();
+        }
+        try {
+            while (rs.next()) {
+                String username = rs.getString("username");
+                users.add(username);
+
+            }
+            try {
+                rs.close();
+                getUsersFromDB.close();
+                 return users;
+
+            } catch (SQLException e1) {
+                e1.printStackTrace();
+            }
+        } catch (SQLException e1) {
+            e1.printStackTrace();
+        } finally {
+            try {
+                if (rs != null)
+                    rs.close();
+                if (getUsersFromDB != null)
+                    getUsersFromDB.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+
+        return null;
     }
 
     public void setErrorMessage(String errorMessage) {

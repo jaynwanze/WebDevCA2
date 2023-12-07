@@ -1,10 +1,12 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!DOCTYPE html>
 <%@taglib uri="/struts-tags" prefix="s" %>
-<html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <link rel="stylesheet" type="text/css" href="css/style.css">
+    <link rel="stylesheet" type="text/css" href="css/style1.css">
+
+    <script src="scripts/script.js"></script>
     <title>E-Commerce Register Page</title>
 </head>
 <body>
@@ -13,15 +15,15 @@
             <h1>E-Commerce Login Page</h1>
         </div>
         <div class="divForm">
-            <h3>
-                <p class="label">Enter your user and password below to be authorized</p>
-            </h3>
-            <s:form action="login" method="POST">
-                <s:textfield name="username" label="Enter your username" />
-                <s:password name="password" label="Enter your password" id="user_password" />
-                <s:submit onclick="setPasswordType()"/>
+            
+            <s:form action="login" method="POST" id ="loginForm">
+                <label for="username">Enter your username:</label>
+                <input type = "text" name="username" id="username"  class="textbox" placeholder="Username" required>
+                <label for="user_password">Enter your password:</label>
+                <input type = "password" name="password" id="user_password" class="textbox" placeholder="Password" required/>
+                <input type = "submit"class= "btn"onclick="setPasswordTypeLogin();">
             </s:form>
-            Show Password: <input type="checkbox" onclick="showPasswordToggle()" /><br>
+           <br> Show Password:<input type="checkbox" onclick="showPasswordToggleLogin()" /><br>
 
             <br><b>Password Requirements:</b><br>
             - Minimum 8 Characters<br>
@@ -60,25 +62,7 @@
         }, 10000); // 10000 milliseconds = 10 seconds
         };
         }
-     
 
-        function showPasswordToggle() {
-            var pass = document.getElementById("user_password");
-
-            if (pass.type === "password" ) {
-                pass.type = "text";
-            } else {
-                pass.type = "password";
-            }
-        }
-
-        function setPasswordType() {
-            var pass = document.getElementById("user_password");
-
-            if (pass.type != "password"){
-                pass.type = "password";
-            }
-        }
     </script>
 </body>
 </html>

@@ -1,10 +1,10 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!DOCTYPE html>
 <%@taglib uri="/struts-tags" prefix="s" %>
-<html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <link rel="stylesheet" type="text/css" href="css/style.css">
+    <script src="scripts/script.js"></script>
     <title>E-Commerce Register Page</title>
 </head>
 <body>
@@ -16,8 +16,11 @@
             <h3>
                 <p class="label">Enter your user and password below to be authorized</p>
             </h3>
-            <s:form action="register" method="POST">
+            <s:form id="reg" action="register" method="POST">
                 <s:textfield name="username" label="Enter your username" />
+                <s:textfield name="email" label="Enter your email" />
+                <s:textfield name="firstName" label="Enter your first name" />
+                <s:textfield name="lastName" label="Enter your last name" />
                 <s:password name="password" label="Enter your password" id="user_password" />
                 <s:password name="passwordConf" label="Enter your password confirmation" id="user_password_conf" />
                 <s:submit onclick="setPasswordType()"/>
@@ -47,29 +50,6 @@
                 errMsg.innerHTML = '<s:property value="errorMessage" />'
             }
         };
-
-        function showPasswordToggle() {
-            var pass = document.getElementById("user_password");
-            var passConf = document.getElementById("user_password_conf");
-
-            if (pass.type === "password" && passConf.type === "password") {
-                pass.type = "text";
-                passConf.type = "text";
-            } else {
-                pass.type = "password";
-                passConf.type = "password";
-            }
-        }
-
-        function setPasswordType() {
-            var pass = document.getElementById("user_password");
-            var passConf = document.getElementById("user_password_conf");
-
-            if (pass.type != "password" && passConf.type != "password") {
-                pass.type = "password";
-                passConf.type = "password";
-            }
-        }
     </script>
 </body>
 </html>

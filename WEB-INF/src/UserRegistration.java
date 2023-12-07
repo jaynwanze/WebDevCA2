@@ -4,10 +4,15 @@ import java.sql.SQLException;
 
 public class UserRegistration {
     private String username;
+    private String email;
+    private String firstName;
+    private String lastName;
     private String password;
     private String passwordConf;
     private String errorMessage;
     private UserDAO user;
+
+    
 
     public UserRegistration() {
 
@@ -36,10 +41,15 @@ public class UserRegistration {
         user = new UserDAO(connection);
 
         // Validation
-        if (!(user.validateBlankInputReg(lowercaseUsername, password, passwordConf))) {
+        if (!(user.validateBlankInputReg(lowercaseUsername, password, passwordConf, email, firstName, lastName))) {
             setErrorMessage("Error Processing Request: No Whitespaces/Blank Input Fields");
             return result;
-        } else if (user.validatePasswords(password, passwordConf).equals("IncorrectLength")) {
+        } else if (!(user.validateLettersOnly(firstName, lastName))) {
+            setErrorMessage(
+                    "Error Processing Request: First/Last Name Must Be Only Contain Letters");
+            return result;
+        }
+        else if (user.validatePasswords(password, passwordConf).equals("IncorrectLength")) {
             setErrorMessage(
                     "Error Processing Request: Password/Password Confirmation Must Be More Than 8 And Less Than 20 Characters");
             return result;
@@ -52,8 +62,9 @@ public class UserRegistration {
         } else if (user.checkUsernameExists(lowercaseUsername)) {
             setErrorMessage("Error Processing Request: Username Already Exists");
             return result;
-        } else if (user.addUserToDB(lowercaseUsername, password)) {
+        } else if (user.addUserToDB(lowercaseUsername, email, firstName, lastName, password)) {
             setErrorMessage(null);
+            //pass session to useractions
             return result = "SUCCESS";
         }
         //Default error message
@@ -71,6 +82,30 @@ public class UserRegistration {
 
     public void setUsername(String username) {
         this.username = username;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
     }
 
     public String getPassword() {
