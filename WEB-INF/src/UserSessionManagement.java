@@ -12,39 +12,41 @@ public class UserSessionManagement extends ActionSupport implements SessionAware
 	private UserDAO userDAO;
 	private Map<String, Object> session;
 	UserProfileActions userProfileActions;
+	UserItemActions userItemActions;
+	UserBidActions userBidActions;
+
 	private String errorMessage;
 	private String logoutMessage;
 	private String successMessage;
-
 
 	public UserSessionManagement() {
 
 	}
 
 	public Connection getConnection() {
-        Connection connection = null;
-        // Create connection to database
-        try {
-            try {
-                Class.forName("com.mysql.cj.jdbc.Driver");
-            } catch (ClassNotFoundException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            }
-            connection = DriverManager.getConnection(
-                    "jdbc:mysql://localhost:3306/ecommerce?serverTimezone=UTC", "root", "root");
+		Connection connection = null;
+		// Create connection to database
+		try {
+			try {
+				Class.forName("com.mysql.cj.jdbc.Driver");
+			} catch (ClassNotFoundException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			connection = DriverManager.getConnection(
+					"jdbc:mysql://localhost:3306/ecommerce?serverTimezone=UTC", "root", "root");
 
-        } catch (SQLException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-        return connection;
-    }
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return connection;
+	}
 
 	public String login() {
 		String lowercaseUsername = username.toLowerCase();
 		String result = "FAILURE";
-		
+
 		// Create connection to database
 		Connection connection = getConnection();
 		// Create new userDAO instance
@@ -67,8 +69,6 @@ public class UserSessionManagement extends ActionSupport implements SessionAware
 		} else if (userDAO.checkPasswordMatches(lowercaseUsername, password)) {
 			setErrorMessage(null);
 			setSuccessMessage(null);
-			userProfileActions = new UserProfileActions();
-			userProfileActions.setSession(session);
 			User user = userDAO.getUserProfile(lowercaseUsername);
 			session.put("currentUser", user);
 			return result = "SUCCESS";
@@ -87,7 +87,7 @@ public class UserSessionManagement extends ActionSupport implements SessionAware
 
 	public String logout() {
 		String result = "FAILURE";
-		session.clear();//clear session detail
+		session.clear();// clear session detail
 
 		if (session.isEmpty()) {
 			setErrorMessage(null);
@@ -95,7 +95,7 @@ public class UserSessionManagement extends ActionSupport implements SessionAware
 			return result = "SUCCESS";
 		}
 		setErrorMessage("Error Processing Request: Unable to Log User Out Of Session");
-		return result;//show some type of error message
+		return result;// show some type of error message
 	}
 
 	public String getUsername() {
@@ -121,7 +121,8 @@ public class UserSessionManagement extends ActionSupport implements SessionAware
 	public String getErrorMessage() {
 		return errorMessage;
 	}
-		public String getLogoutMessage() {
+
+	public String getLogoutMessage() {
 		return logoutMessage;
 	}
 
@@ -130,12 +131,12 @@ public class UserSessionManagement extends ActionSupport implements SessionAware
 	}
 
 	public void setSuccessMessage(String successMessage) {
-        this.successMessage = successMessage;
-    }
+		this.successMessage = successMessage;
+	}
 
-    public String getSuccessMessage() {
-        return successMessage;
-    }
+	public String getSuccessMessage() {
+		return successMessage;
+	}
 
 	@Override
 	public void setSession(Map map) {

@@ -7,24 +7,22 @@
     <link rel="stylesheet" type="text/css" href="css/style1.css">
 
     <script src="scripts/script.js"></script>
-    <title>E-Commerce Register Page</title>
+    <title>E-Commerce Login Page</title>
 </head>
 <body>
     <div class="container">
-        <div class="titlebox">
-            <h1>E-Commerce Login Page</h1>
-        </div>
-        <div class="divForm">
-            
+        <div class="divFormLogin">
+             <h3>
+        <p class="label">Enter your information below to login</p><br>
+    </h3>
             <s:form action="login" method="POST" id ="loginForm">
-                <label for="username">Enter your username:</label>
-                <input type = "text" name="username" id="username"  class="textbox" placeholder="Username" required>
-                <label for="user_password">Enter your password:</label>
-                <input type = "password" name="password" id="user_password" class="textbox" placeholder="Password" required/>
-                <input type = "submit"class= "btn"onclick="setPasswordTypeLogin();">
+                <label class= "labelLogin"  for="username">Enter your username:</label>
+                <input class= "inputLogin" type = "text" name="username" id="username"  class="textbox" placeholder="Username" required>
+                <label class= "labelLogin" for="user_password">Enter your password:</label>
+                <input class= "inputLogin" type = "password" name="password" id="user_password" class="textbox" placeholder="Password" required/>
+                <br><input type = "submit"class= "btn"onclick="setPasswordTypeLogin();">
             </s:form>
            <br> Show Password:<input type="checkbox" onclick="showPasswordToggleLogin()" /><br>
-
             <br><b>Password Requirements:</b><br>
             - Minimum 8 Characters<br>
             - Maximum 20 Characters<br>
@@ -61,7 +59,7 @@
             logoutMsg.style.visibility = 'hidden';
         }, 10000); // 10000 milliseconds = 10 seconds
         };
-        }
+        };
 
     </script>
 </body>

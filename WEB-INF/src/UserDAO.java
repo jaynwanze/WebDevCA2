@@ -13,18 +13,19 @@ public class UserDAO {
     private String errorMessage;
     private ArrayList<String> users;
 
-
     public UserDAO(Connection connection) {
         // Connection to database
         this.connection = connection;
 
     }
 
-    public boolean validateBlankInputReg(String username, String password, String passwordConf, String email, String firstName, String lastName) {
+    public boolean validateBlankInputReg(String username, String password, String passwordConf, String email,
+            String firstName, String lastName) {
         // if user inputs is blank or has whitespaces
         if (!(username.isBlank()) && !(username.matches(".*\\s.*")) && !(password.isBlank())
                 && !(password.matches(".*\\s.*")) && !(passwordConf.isBlank())
-                && !(passwordConf.matches(".*\\s.*")) && !(email.isBlank()) && !(email.matches(".*\\s.*")) && !(firstName.isBlank())
+                && !(passwordConf.matches(".*\\s.*")) && !(email.isBlank()) && !(email.matches(".*\\s.*"))
+                && !(firstName.isBlank())
                 && !(firstName.matches(".*\\s.*")) && !(lastName.isBlank())
                 && !(lastName.matches(".*\\s.*"))) {
             return true;
@@ -32,9 +33,9 @@ public class UserDAO {
         return false;
     }
 
-     public boolean validateLettersOnly(String firstName, String lastName) {
+    public boolean validateLettersOnly(String firstName, String lastName) {
         // if user inputs is letters
-        if (firstName.matches ("[a-zA-Z]+\\.?") && lastName.matches("[a-zA-Z]+\\.?")) {
+        if (firstName.matches("[a-zA-Z]+\\.?") && lastName.matches("[a-zA-Z]+\\.?")) {
             return true;
         }
         return false;
@@ -188,7 +189,8 @@ public class UserDAO {
         try {
             // Prepared statement to check to if user and password match
             getUserProfile = connection
-                    .prepareStatement("SELECT username, email, first_name, last_name, created_at FROM users WHERE username = ?");
+                    .prepareStatement(
+                            "SELECT username, email, first_name, last_name, created_at FROM users WHERE username = ?");
             getUserProfile.setString(1, username);
             // Executes sql query tocheck if username already exists /stores results in rs
             rs = getUserProfile
@@ -199,11 +201,11 @@ public class UserDAO {
         }
         try {
             if (rs.next()) {
-                 String email = rs.getString("email");
-                 String firstName =  rs.getString("first_name");
-                 String lastName =   rs.getString("last_name");
-                 String dateJoined = rs.getTimestamp("created_at").toString();
-                user = new User(username ,email , firstName, lastName, dateJoined);
+                String email = rs.getString("email");
+                String firstName = rs.getString("first_name");
+                String lastName = rs.getString("last_name");
+                String dateJoined = rs.getTimestamp("created_at").toString();
+                user = new User(username, email, firstName, lastName, dateJoined);
                 return user;
             }
             try {
@@ -248,7 +250,7 @@ public class UserDAO {
             try {
                 rs.close();
                 getUsersFromDB.close();
-                 return users;
+                return users;
 
             } catch (SQLException e1) {
                 e1.printStackTrace();
@@ -267,6 +269,52 @@ public class UserDAO {
         }
 
         return null;
+    }
+
+    public boolean addItemToDB(String username, String itemName, double itemPrice) {
+
+        PreparedStatement getUserId = null;
+        PreparedStatement addItem = null;
+        ResultSet rs = null;
+
+        try {
+            getUserId = connection.prepareStatement("SELECT user_id FROM users WHERE username = ?");
+            getUserId.setString(1, username);
+            rs = getUserId.executeQuery();
+        } catch (SQLException e) {
+            // Handle SQL exception
+            e.printStackTrace();
+        }
+        try {
+            if (rs.next()) {
+                int userId = rs.getInt("user_id");
+                try {
+                            // use userId to insert a new item
+                    addItem = connection
+                            .prepareStatement("INSERT INTO items (seller_id, item_name, price) VALUES (?, ?, ?)");
+                    // Assuming item details are provided as parameters
+                    addItem.setInt(1, userId);
+                    addItem.setString(2, itemName);
+                    addItem.setDouble(3, itemPrice);
+
+                    // Execute the insert statement
+                    int rowsUpdated = addItem.executeUpdate();
+                    if (rowsUpdated > 0) {
+                        return true;
+                    }
+
+                } catch (SQLException e) {
+                    // Handle SQL exception
+                    e.printStackTrace();
+                }
+            }
+        } catch (SQLException e) {
+            // Handle SQL exception
+            e.printStackTrace();
+        }
+
+        return false;
+
     }
 
     public void setErrorMessage(String errorMessage) {

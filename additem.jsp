@@ -30,23 +30,25 @@
 <div class="container">
     <h1>Hi <s:property value="#session.currentUser.username" />, you are currently logged in!</h1>
 <section>
-<!-- Row 1 -->
     <div class="content-row">
-        <div class="addItem-input">
+        <div class="additem-form">
         <s:form action="addItemForSale" method="POST" id="addItem">
         <h2>Add Item For Sale</h2>
-            <label for="itemName">Enter Item Name:</label>
-            <input type="text" id="itemName" name = "itemName" class="textbox" placeholder="Item Name" required><br>
-            <label for="price">Enter Price Amount:</label>
-            <input type="text" id="price" id="price" class="textbox" placeholder="Price" required><br>
+           <!-- <input type = "hidden" value = '<s:property value="#session.currentUser.username" />' name = "username"> -->
+            <label class ="labelLogin" for="itemName">Enter Item Name:</label>
+            <input class ="inputLogin" type="text" id="itemName" name = "itemName" class="textbox" placeholder="Item Name" required><br>
+            <label class ="labelLogin"for="itemPrice">Enter Price Amount:</label>
+            <input class ="inputLogin"type="text" id="itemPrice" name="itemPrice" class="textbox" placeholder="Item price" required><br>
             <input type="submit"class ="btn">
             </s:form>
         </div>
-</div>
+    </div>
 
 <section>
+<div id="errMsgDiv"> </div>
+<div id="successMsgDiv"> </div>
 </div>
-     </body>
+</body>
      <!--Forms -->
 <s:form action="viewAllUsers" method="POST" id="allUsers"></s:form>
 
@@ -61,7 +63,21 @@
                 errMsg.style.visibility = 'visible';
                 errMsg.classList.add('errMsgBox');
                 errMsg.innerHTML = '<s:property value="errorMessage" />'
-            }        
+            }   
+            // Logout Message
+             var successMsg = document.getElementById('successMsgDiv');
+                if ('<s:property value="successMessage" />' == null || '<s:property value="successMessage" />' === '') {
+               successMsg.style.visibility = 'hidden';
+                } else {
+        successMsg.style.visibility = 'visible';
+        successMsg.classList.add('successMsgBox');
+        successMsg.innerHTML = '<s:property value="successMessage" />';
+        // Set a timeout to hide the message after 10 seconds
+        setTimeout(function() {
+            errMsg.style.visibility = 'hidden';
+            successMsg.style.visibility = 'hidden';
+        }, 10000); // 10000 milliseconds = 10 seconds
+        };     
         };
 
 </script>

@@ -31,5 +31,9 @@
         <result name="SUCCESS">/userprofile.jsp</result>
 	    <result name="FAILURE">/userprofile.jsp</result>
     </action>
+    <action name="addItemForSale" class="UserItemActions" method ="addItemForSale">
+        <result name="SUCCESS">/additem.jsp</result>
+	    <result name="FAILURE">/additem.jsp</result>
+    </action>
     </package>
 </struts>

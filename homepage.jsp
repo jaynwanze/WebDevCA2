@@ -29,7 +29,6 @@
     </div>
 </nav>
 
-
     <div class="container">
     <h1>Hi <s:property value="#session.currentUser.username" />, you are currently logged in!</h1>
      </div>
@@ -43,12 +42,11 @@
         <!-- Column3: View All Items for Sale -->
         <div class="content-column">
             <h2>View All Items for Sale</h2>
+            
         </div>
-          <div class="content-display">
-                 <div class = "clickable" onclick = "window.location.href='myprofile.jsp';">
-                 <h2>My Profile</h2>
-                         </div>         
-                      <table>
+          <div class="content-display-profile">
+  <div class = "clickable" onclick = "window.location.href='myprofile.jsp';"><h2>My Profile</h2> </div>     
+                     <table class = "table-profile">
                           <th> Username</th>
                             <tr><td><s:property value="#session.currentUser.username" /><br></td></tr>
                             <th> Email</th>

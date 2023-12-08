@@ -29,19 +29,27 @@
 
 <div class="container">
     <h1>Hi <s:property value="#session.currentUser.username" />, you are currently logged in!</h1>
-    <h2>My Profile: <s:property value="#session.currentUser.username" /></h2>
     <div class="content-row">
-        <div class="content-display">
-            <s:property value="#session.currentUser.username" /><br>
-            <s:property value="#session.currentUser.email" /><br>
-            <s:property value="#session.currentUser.firstName" /><br>
-            <s:property value="#session.currentUser.lastName" /><br>
-            <s:property value="#session.currentUser.dateJoined" /><br>
+        <div class="content-display-profile">
+            <h2>My Profile: <s:property value="#session.currentUser.username" /></h2>
+              <table class = "table-profile">
+                          <th> Username</th>
+                            <tr><td><s:property value="#session.currentUser.username" /><br></td></tr>
+                            <th> Email</th>
+                            <tr><td> <s:property value="#session.currentUser.email" /><br></td></tr>
+                            <th> First Name</th>
+                            <tr><td> <s:property value="#session.currentUser.firstName" /><br></td></tr>
+                            <th>Last Name</th>
+                            <tr><td>  <s:property value="#session.currentUser.lastName" /><br></td></tr>
+                            <th> Date/Time Joined</th>
+                            <tr><td> <s:property value="#session.currentUser.dateJoined" /><br></td></tr>
+                     </table>
         </div>
     </div>
 </div>
 
 <section>
+<div id="errMsgDiv"> </div>
 </div>
      </body>
       <!--Forms -->

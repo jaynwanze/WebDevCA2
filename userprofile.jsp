@@ -42,6 +42,7 @@
 </div>
 
 <section>
+<div id="errMsgDiv"> </div>
 </div>
      </body>
       <!--Forms -->
@@ -58,6 +59,4 @@
                 errMsg.innerHTML = '<s:property value="errorMessage" />'
             }        
         };
-         
-        
 </script>

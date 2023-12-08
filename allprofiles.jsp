@@ -50,6 +50,7 @@
 </s:form>
 
 <section>
+<div id="errMsgDiv"> </div>
 </div>
      </body>
      <!--Forms -->

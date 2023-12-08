@@ -4,30 +4,33 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <link rel="stylesheet" type="text/css" href="css/style.css">
+        <link rel="stylesheet" type="text/css" href="css/style1.css">
     <script src="scripts/script.js"></script>
     <title>E-Commerce Register Page</title>
 </head>
 <body>
     <div class="container">
-        <div class="titlebox">
-            <h1>E-Commerce Register Page</h1>
-        </div>
-        <div class="divForm">
-            <h3>
-                <p class="label">Enter your user and password below to be authorized</p>
-            </h3>
-            <s:form id="reg" action="register" method="POST">
-                <s:textfield name="username" label="Enter your username" />
-                <s:textfield name="email" label="Enter your email" />
-                <s:textfield name="firstName" label="Enter your first name" />
-                <s:textfield name="lastName" label="Enter your last name" />
-                <s:password name="password" label="Enter your password" id="user_password" />
-                <s:password name="passwordConf" label="Enter your password confirmation" id="user_password_conf" />
-                <s:submit onclick="setPasswordType()"/>
-            </s:form>
-            Show Password: <input type="checkbox" onclick="showPasswordToggle()" /><br>
-
-            <br><b>Password Requirements:</b><br>
+        <div class="divFormReg">
+    <h3>
+        <p class="label">Enter your information below to register</p>
+    </h3><br>
+    <s:form id="reg" action="register" method="POST">
+        <label class= "labelReg"> Enter your username:</label>
+        <input class= "inputReg" type="text" name="username" id="username" class="textbox" placeholder="Username" required/><br>
+        <label class= "labelReg">Enter your email:</label>
+        <input class= "inputReg" type="text" name="email" id="email" class="textbox" placeholder="Email" required/><br>
+        <label class= "labelReg">Enter your first name:</label>
+        <input class= "inputReg"  type="text" name="firstName" id="firstName" class="textbox" placeholder="First Name" required/><br>
+        <label class= "labelReg">Enter your last name:</label>
+        <input class= "inputReg"  type="text" name="lastName" id="lastName" class="textbox" placeholder="Last Name" required/><br>
+        <label class= "labelReg">Enter your password:</label>
+        <input class= "inputReg" type="password" name="password" id="user_password" class="textbox" placeholder="Password" required/><br>
+        <label class= "labelReg">Enter your password confirmation:</label>
+        <input class= "inputReg"  type="password" name="passwordConf" id="user_password_conf" class="textbox" placeholder="Password Confirmation" required/><br>
+        <br><input type="submit" class="btn" onclick="setPasswordType()"/>
+    </s:form>
+            <br>Show Password: <input type="checkbox" onclick="showPasswordToggle()" /><br><br>
+            <b>Password Requirements:</b><br>
             - Minimum 8 Characters<br>
             - Maximum 20 Characters<br>
             - No Whitespaces/Blank Input Field or Fields Permitted<br><br>
