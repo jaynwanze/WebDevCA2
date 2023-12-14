@@ -13,6 +13,7 @@ public class UserDAO {
     private String errorMessage;
     private ArrayList<String> users;
     private ArrayList<Item> items;
+    private ArrayList<Bid> bids;
 
     public UserDAO(Connection connection) {
         // Connection to database
@@ -209,15 +210,15 @@ public class UserDAO {
         }
         try {
             if (username != null) {
-            // Prepared statement to check to if user and password match
-            getUserProfile = connection
-                    .prepareStatement(
-                            "SELECT username, email, first_name, last_name, created_at FROM users WHERE username = ?");
-            getUserProfile.setString(1, username);
+                // Prepared statement to check to if user and password match
+                getUserProfile = connection
+                        .prepareStatement(
+                                "SELECT username, email, first_name, last_name, created_at FROM users WHERE username = ?");
+                getUserProfile.setString(1, username);
 
-            // Executes sql query tocheck if username already exists /stores results in rs
-            rs = getUserProfile
-                    .executeQuery();
+                // Executes sql query tocheck if username already exists /stores results in rs
+                rs = getUserProfile
+                        .executeQuery();
             }
         } catch (SQLException e1) {
             // TODO Auto-generated catch block
@@ -261,7 +262,6 @@ public class UserDAO {
 
     public ArrayList<String> getUsers() {
         users = new ArrayList<String>();
-
         PreparedStatement getUsersFromDB = null;
         ResultSet rs = null;
         try {
@@ -297,16 +297,6 @@ public class UserDAO {
             }
         }
 
-        return null;
-    }
-
-    public Item getItem() {
-        PreparedStatement getSellerId = null;
-        PreparedStatement getItemsFromDB = null;
-        ResultSet rs = null;
-        String username;
-
-        // select username where FROM users,items Where seller_id = user_id
         return null;
     }
 
@@ -367,6 +357,7 @@ public class UserDAO {
             getUserId = connection.prepareStatement("SELECT user_id FROM users WHERE username = ?");
             getUserId.setString(1, username);
             rs = getUserId.executeQuery();
+            rs.close();
         } catch (SQLException e) {
             // Handle SQL exception
             e.printStackTrace();
@@ -386,6 +377,9 @@ public class UserDAO {
                     // Execute the insert statement
                     int rowsUpdated = addItem.executeUpdate();
                     if (rowsUpdated > 0) {
+                        rs.close();
+                        getUserId.close();
+                        addItem.close();
                         return true;
                     }
 
@@ -394,12 +388,76 @@ public class UserDAO {
                     e.printStackTrace();
                 }
             }
+            rs.close();
+            getUserId.close();
+            addItem.close();
         } catch (SQLException e) {
             // Handle SQL exception
             e.printStackTrace();
         }
 
         return false;
+
+    }
+
+    public ArrayList<Bid> getItemsBids(String itemName) {
+        PreparedStatement getItemId = null;
+        PreparedStatement getItemsBids = null;
+        ResultSet rs = null;
+        bids = new ArrayList<Bid>();
+
+        try {
+            getItemId = connection.prepareStatement("SELECT item_id FROM items WHERE item_name = ? ");
+            getItemId.setString(1, itemName);
+            rs = getItemId.executeQuery();
+            try {
+                if (rs.next()) {
+                    int itemId = rs.getInt("item_id");
+
+                    try {
+                        getItemsBids = connection
+                                .prepareStatement(
+                                        "SELECT b.bid_amount, u.username, b.created_at FROM bids b, users u WHERE b.item_id = ? AND u.user_id = b.bidder_id");
+
+                        getItemsBids.setInt(1, itemId);
+
+                        rs = getItemsBids.executeQuery();
+                        if (rs != null) {
+                            while (rs.next()) {
+                                String bidPrice = String.valueOf(rs.getDouble("bid_amount"));
+                                String bidder = rs.getString("username");
+                                String datePosted = rs.getString("created_at");
+                                Bid bid = new Bid(bidPrice, bidder, datePosted, itemName);
+                                bids.add(bid);
+                            }
+
+                        }
+
+                    } catch (SQLException e) {
+                        // Handle SQL exception
+                        e.printStackTrace();
+                    }
+
+                }
+                try {
+                    rs.close();
+                    getItemId.close();
+                    getItemsBids.close();
+                    return bids;
+                } catch (SQLException e1) {
+                    e1.printStackTrace();
+                }
+
+            } catch (SQLException e) {
+                // Handle SQL exception
+                e.printStackTrace();
+            }
+        } catch (SQLException e) {
+            // Handle SQL exception
+            e.printStackTrace();
+        }
+
+        return null;
 
     }
 

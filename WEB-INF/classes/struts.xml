@@ -39,5 +39,9 @@
         <result name="SUCCESS">/allitems.jsp</result>
         <result name="FAILURE">/allitems.jsp</result>
     </action>
+    <action name="viewItemAndBids" class="UserItemActions" method ="viewItemAndBids">
+        <result name="SUCCESS">/item.jsp</result>
+        <result name="FAILURE">/allitems.jsp</result>
+    </action>
     </package>
 </struts>

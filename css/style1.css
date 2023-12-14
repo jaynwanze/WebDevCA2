@@ -51,6 +51,10 @@ nav a:hover {
     color: #333;
 }
 
+a {
+    cursor: pointer;
+}
+
 
 
 section {
@@ -71,14 +75,15 @@ section {
     display: flex;
     justify-content: center;
     align-items: stretch;
-    flex-wrap: wrap; /* Allow items to wrap to the next line if needed */
+    flex-wrap: wrap;
+    /* Allow items to wrap to the next line if needed */
     margin-bottom: 20px;
 
 }
 
 
-  .content-display-profile {
-    background-color:#f9f9f9;
+.content-display-profile {
+    background-color: #f9f9f9;
     margin: 0 10px;
     padding: 20px;
     border: 1px solid #ccc;
@@ -101,7 +106,6 @@ section {
     text-align: center;
     align-items: center;
     text-decoration: none;
-    cursor: pointer;
     transition: background-color 0.3s;
 
 }
@@ -130,23 +134,22 @@ section {
     transition: background-color 0.3s;
 }
 
-.table-profile {    
+.table-profile {
     text-align: center;
     border-collapse: collapse;
     width: 23.45vw;
     height: 47vh;
     border: 2px solid;
     margin-bottom: 5px;
-  }
+}
 
 td {
-    
+
     border: 1px solid #ddd;
     background-color: #ddd;
     width: 200px;
     padding: 8px;
     text-align: center;
-    cursor: pointer;
     transition: background-color 0.3s;
 }
 
@@ -313,7 +316,7 @@ footer {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    width: 45vh;
+    width: 40vh;
     background-color: #ccc;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     border-radius: 5px;

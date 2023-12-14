@@ -30,35 +30,52 @@
 
 
             <div class="container">
-                <h1>Hi
-                    <s:property value="#session.currentUser.username" />, you are currently logged in!
-                </h1>
-                <h2>User List</h2>
-                <section>
-
-                    <s:form id="viewProfile" action="viewUserProfile" method="POST">
-                        <table>
-                            <thead>
-                                <tr>
-                                    <th>Users</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <s:iterator value="users" id="currentUser">
-                                    <tr>
-                                        <td>
-                                            <input type="hidden" id="usernameInput" name="username" value="" />
-                                            <a onclick='viewProfileForm("${currentUser}")'>${currentUser} </a>
-                                        </td>
-                                    </tr>
-                                </s:iterator>
-                            </tbody>
-                        </table>
-                    </s:form>
-
-                    <section>
-                        <div id="errMsgDiv"> </div>
+                <div class="stock-items-container">
+                    <div class="stock-item">
+                        <label>Item Name:</label>
+                        <s:property value="itemName" />
+                        <label>Item Price:</label>
+                        <s:property value="itemPrice" />
+                        <label>Seller:</label>
+                        <s:property value="username" />
+                        <label>Date Posted:</label>
+                        <s:property value="datePosted" />
+                        </form>
+                    </div>
+                </div>
             </div>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Price</th>
+                        <th>Seller</th>
+                        <th>Date Posted</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <s:iterator value="bids">
+                        <tr>
+
+                            <td>
+                                <s:property value="bidPrice" />
+                            </td>
+                            <td>
+                                <s:property value="bidder" />
+                            </td>
+                            <td>
+                                <s:property value="datePosted" />
+                            </td>
+                        </tr>
+                    </s:iterator>
+                </tbody>
+            </table>
+            <div id="errMsgDiv"> </div>
+            </div>
+
+
+            <section>
+
         </body>
         <!--Forms -->
         <s:form action="viewAllUsers" method="POST" id="allUsers"></s:form>

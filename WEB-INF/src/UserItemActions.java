@@ -11,6 +11,7 @@ import com.opensymphony.xwork2.ActionSupport;
 public class UserItemActions extends ActionSupport implements SessionAware {
 
     private ArrayList<Item> items = new ArrayList<Item>();
+    private ArrayList<Bid> bids = new ArrayList<Bid>();
     private User user = new User();
     private Item item = new Item();
     private Map<String, Object> session;
@@ -19,6 +20,8 @@ public class UserItemActions extends ActionSupport implements SessionAware {
     private String successMessage;
     private String itemName;
     private String itemPrice;
+    private String username;
+    private String datePosted;
 
     public UserItemActions() {
 
@@ -75,7 +78,7 @@ public class UserItemActions extends ActionSupport implements SessionAware {
         Connection connection = getConnection();
         // Create new userDAO instance
         userDAO = new UserDAO(connection);
-        
+
         // Set users list to be called in jsp
         if (userDAO.getItems() != null) {
             setItems(userDAO.getItems());
@@ -85,13 +88,31 @@ public class UserItemActions extends ActionSupport implements SessionAware {
         }
         return result;
 
-
     }
 
-    public String viewItemForSale() {
+    public String viewItemAndBids() {
         setErrorMessage(null);
         setSuccessMessage(null);
-        return "";
+        String result = "FAILURE";
+        Connection connection = getConnection();
+        // Create new userDAO instance
+        userDAO = new UserDAO(connection);
+
+        if (itemName.isEmpty()) {
+            setErrorMessage("Error Proccesing Request: Cannot Complete Operation!");
+        }
+
+        else if (!(userDAO.getItemsBids(itemName).isEmpty())) {
+            setBids(userDAO.getItemsBids(itemName));
+            return result = "SUCCESS";
+
+        } else {
+            setErrorMessage("There Are No Bids On This Item");
+            return result = "SUCCESS";
+
+        }
+
+        return result;
 
     }
 
@@ -111,6 +132,22 @@ public class UserItemActions extends ActionSupport implements SessionAware {
         this.itemPrice = itemPrice;
     }
 
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getDatePosted() {
+        return datePosted;
+    }
+
+    public void setDatePosted(String datePosted) {
+        this.datePosted = datePosted;
+    }
+
     public ArrayList<Item> getItems() {
         return items;
     }
@@ -125,6 +162,14 @@ public class UserItemActions extends ActionSupport implements SessionAware {
 
     public void setItems(Item item) {
         this.item = item;
+    }
+
+    public ArrayList<Bid> getBids() {
+        return bids;
+    }
+
+    public void setBids(ArrayList<Bid> bids) {
+        this.bids = bids;
     }
 
     public void setErrorMessage(String errorMessage) {

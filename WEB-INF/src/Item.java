@@ -2,7 +2,7 @@ public class Item {
 
     String itemName;
     String itemPrice;
-    String username;;
+    String username;
     String datePosted;
 
     public Item() {

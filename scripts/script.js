@@ -49,14 +49,19 @@ function addItemForSaleForm() {
 }
 
 function viewProfileForm(username) {
-    
-    // Set the value of the hidden input field
     document.getElementById('usernameInput').value = username;
     document.getElementById('viewProfile').submit();
 }
 
 function viewAllItemsForm() {
     document.getElementById("viewItems").submit();
+}
+function viewItemAndBidsForm() {
+    //document.getElementById('itemNameInput').value = itemName;
+    //document.getElementById('itemPriceInput').value = itemPrice;
+    //document.getElementById('sellerInput').value = seller;
+    //document.getElementById('datePostedInput').value = datePosted;
+    document.getElementById('itemAndBids').submit();
 }
 
 
