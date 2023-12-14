@@ -49,7 +49,7 @@
                 <thead>
                     <tr>
                         <th>Price</th>
-                        <th>Seller</th>
+                        <th>Bidder</th>
                         <th>Date Posted</th>
                     </tr>
                 </thead>
