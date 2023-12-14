@@ -12,6 +12,7 @@ public class UserItemActions extends ActionSupport implements SessionAware {
 
     private ArrayList<Item> items = new ArrayList<Item>();
     private User user = new User();
+    private Item item = new Item();
     private Map<String, Object> session;
     private UserDAO userDAO;
     private String errorMessage;
@@ -66,10 +67,24 @@ public class UserItemActions extends ActionSupport implements SessionAware {
         return result;
     }
 
-    public String viewAllSaleItems() {
+    public String viewItemsForSale() {
         setErrorMessage(null);
         setSuccessMessage(null);
-        return "";
+
+        String result = "FAILURE";
+        Connection connection = getConnection();
+        // Create new userDAO instance
+        userDAO = new UserDAO(connection);
+        
+        // Set users list to be called in jsp
+        if (userDAO.getItems() != null) {
+            setItems(userDAO.getItems());
+            return result = "SUCCESS";
+        } else {
+            setErrorMessage("Error Processing Request: Items List Is Empty");
+        }
+        return result;
+
 
     }
 
@@ -96,20 +111,20 @@ public class UserItemActions extends ActionSupport implements SessionAware {
         this.itemPrice = itemPrice;
     }
 
-    public ArrayList<Item> getitems() {
+    public ArrayList<Item> getItems() {
         return items;
     }
 
-    public void setUsers(ArrayList<Item> items) {
+    public void setItems(ArrayList<Item> items) {
         this.items = items;
     }
 
-    public User getUser() {
-        return user;
+    public Item getItem() {
+        return item;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setItems(Item item) {
+        this.item = item;
     }
 
     public void setErrorMessage(String errorMessage) {

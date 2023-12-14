@@ -24,7 +24,7 @@ function setPasswordType() {
 function showPasswordToggleLogin() {
     var pass = document.getElementById("user_password");
 
-    if (pass.type === "password" ) {
+    if (pass.type === "password") {
         pass.type = "text";
     } else {
         pass.type = "password";
@@ -34,7 +34,7 @@ function showPasswordToggleLogin() {
 function setPasswordTypeLogin() {
     var pass = document.getElementById("user_password");
 
-    if (pass.type != "password"){
+    if (pass.type != "password") {
         pass.type = "password";
     }
 }
@@ -42,18 +42,22 @@ function logoutForm() {
     document.getElementById("logout").submit();
 }
 function viewAllUsersForm() {
-document.getElementById("allUsers").submit();
+    document.getElementById("allUsers").submit();
 }
 function addItemForSaleForm() {
     document.getElementById("addItem").submit();
-    }
-    
-function viewProfileForm() {
-// Trim the last character    
-//var trimmedUsername = username.endsWith(',') ? username.slice(0, -1) : username;
-// Update the input field with the trimmed username
-// document.getElementById("username").value = trimmedUsername;
-document.getElementById("userProfile").submit();
 }
+
+function viewProfileForm(username) {
+    
+    // Set the value of the hidden input field
+    document.getElementById('usernameInput').value = username;
+    document.getElementById('viewProfile').submit();
+}
+
+function viewAllItemsForm() {
+    document.getElementById("viewItems").submit();
+}
+
 
 

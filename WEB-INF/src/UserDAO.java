@@ -12,6 +12,7 @@ public class UserDAO {
 
     private String errorMessage;
     private ArrayList<String> users;
+    private ArrayList<Item> items;
 
     public UserDAO(Connection connection) {
         // Connection to database
@@ -182,19 +183,42 @@ public class UserDAO {
         return false;
     }
 
-    public User getUserProfile(String username) {
+    public User getUserProfile(String usernameString) {
         User user;
         PreparedStatement getUserProfile = null;
         ResultSet rs = null;
+        String username = null;
+        PreparedStatement checkUsername = null;
+
         try {
+            // Check if the given usernameString exists in the users table
+            checkUsername = connection.prepareStatement("SELECT username FROM users");
+            rs = checkUsername.executeQuery();
+            while (rs.next()) {
+                String dbUsername = rs.getString("username");
+                if (usernameString.contains(dbUsername)) {
+                    username = dbUsername;
+                    break;
+                }
+            }
+            rs.close();
+            checkUsername.close();
+        } catch (SQLException e1) {
+            // TODO Auto-generated catch block
+            e1.printStackTrace();
+        }
+        try {
+            if (username != null) {
             // Prepared statement to check to if user and password match
             getUserProfile = connection
                     .prepareStatement(
                             "SELECT username, email, first_name, last_name, created_at FROM users WHERE username = ?");
             getUserProfile.setString(1, username);
+
             // Executes sql query tocheck if username already exists /stores results in rs
             rs = getUserProfile
                     .executeQuery();
+            }
         } catch (SQLException e1) {
             // TODO Auto-generated catch block
             e1.printStackTrace();
@@ -211,6 +235,7 @@ public class UserDAO {
             try {
                 rs.close();
                 getUserProfile.close();
+                checkUsername.close();
 
             } catch (SQLException e1) {
                 e1.printStackTrace();
@@ -223,10 +248,14 @@ public class UserDAO {
                     rs.close();
                 if (getUserProfile != null)
                     getUserProfile.close();
+                if (checkUsername != null) {
+                    checkUsername.close();
+                }
             } catch (SQLException e) {
                 e.printStackTrace();
             }
         }
+
         return null;
     }
 
@@ -271,6 +300,63 @@ public class UserDAO {
         return null;
     }
 
+    public Item getItem() {
+        PreparedStatement getSellerId = null;
+        PreparedStatement getItemsFromDB = null;
+        ResultSet rs = null;
+        String username;
+
+        // select username where FROM users,items Where seller_id = user_id
+        return null;
+    }
+
+    public ArrayList<Item> getItems() {
+        items = new ArrayList<Item>();
+        PreparedStatement getItemsFromDB = null;
+        ResultSet rs = null;
+
+        try {
+            getItemsFromDB = connection.prepareStatement(
+                    "SELECT item_name, price, username, i.created_at FROM items i ,users u WHERE seller_id = user_id");
+            rs = getItemsFromDB.executeQuery();
+        } catch (SQLException e1) {
+            e1.printStackTrace();
+        }
+
+        try {
+            while (rs.next()) {
+                String itemName = rs.getString("item_name");
+                String itemPrice = String.valueOf(rs.getDouble("price"));
+                String username = rs.getString("username");
+                String datePosted = rs.getString("created_at");
+                Item item = new Item(itemName, itemPrice, username, datePosted);
+                items.add(item);
+            }
+
+            try {
+                rs.close();
+                getItemsFromDB.close();
+                return items;
+
+            } catch (SQLException e1) {
+                e1.printStackTrace();
+            }
+        } catch (SQLException e1) {
+            e1.printStackTrace();
+        } finally {
+            try {
+                if (rs != null)
+                    rs.close();
+                if (getItemsFromDB != null)
+                    getItemsFromDB.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+
+        return null;
+    }
+
     public boolean addItemToDB(String username, String itemName, double itemPrice) {
 
         PreparedStatement getUserId = null;
@@ -289,7 +375,7 @@ public class UserDAO {
             if (rs.next()) {
                 int userId = rs.getInt("user_id");
                 try {
-                            // use userId to insert a new item
+                    // use userId to insert a new item
                     addItem = connection
                             .prepareStatement("INSERT INTO items (seller_id, item_name, price) VALUES (?, ?, ?)");
                     // Assuming item details are provided as parameters
