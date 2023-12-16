@@ -30,7 +30,7 @@
 
             <div class="container">
                 <h1>Hi
-                    <s:property value="#session.currentUser.username" />, you are currently logged in!
+                    <s:property value="#session.currentUser.username" />, you are currently logged in | My Profile Page
                 </h1>
                 <div class="content-row">
                     <div class="content-display-profile">

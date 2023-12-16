@@ -31,7 +31,7 @@
 
             <div class="container">
                 <h1>Hi
-                    <s:property value="#session.currentUser.username" />, you are currently logged in!
+                    <s:property value="#session.currentUser.username" />, you are currently logged in | All Items Page
                 </h1>
                 <h2>All Items For Sale List</h2>
                 <section>

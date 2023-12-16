@@ -56,6 +56,9 @@ function viewProfileForm(username) {
 function viewAllItemsForm() {
     document.getElementById("viewItems").submit();
 }
+function viewMyBidsForm() {
+    document.getElementById("myBids").submit();
+}
 function viewItemAndBidsForm() {
     //document.getElementById('itemNameInput').value = itemName;
     //document.getElementById('itemPriceInput').value = itemPrice;

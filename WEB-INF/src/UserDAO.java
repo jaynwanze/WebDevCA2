@@ -357,7 +357,6 @@ public class UserDAO {
             getUserId = connection.prepareStatement("SELECT user_id FROM users WHERE username = ?");
             getUserId.setString(1, username);
             rs = getUserId.executeQuery();
-            rs.close();
         } catch (SQLException e) {
             // Handle SQL exception
             e.printStackTrace();
@@ -407,7 +406,7 @@ public class UserDAO {
         bids = new ArrayList<Bid>();
 
         try {
-            getItemId = connection.prepareStatement("SELECT item_id FROM items WHERE item_name = ? ");
+            getItemId = connection.prepareStatement("SELECT item_id FROM items WHERE item_name = ?");
             getItemId.setString(1, itemName);
             rs = getItemId.executeQuery();
             try {
@@ -458,6 +457,125 @@ public class UserDAO {
         }
 
         return null;
+
+    }
+
+    public ArrayList<Bid> getUserBids(String username) {
+        PreparedStatement getUserId = null;
+        PreparedStatement getItemsBids = null;
+        ResultSet rs = null;
+        bids = new ArrayList<Bid>();
+
+        try {
+            getUserId = connection.prepareStatement("SELECT user_id FROM users WHERE username = ?");
+            getUserId.setString(1, username);
+            rs = getUserId.executeQuery();
+            try {
+                if (rs.next()) {
+                    int userId = rs.getInt("user_id");
+
+                    try {
+                        getItemsBids = connection
+                                .prepareStatement(
+                                        "SELECT i.item_name, b.bid_amount, u.username, b.created_at FROM bids b Join items i ON b.item_id = i.item_id JOIN users u ON b.bidder_id = u.user_id WHERE b.bidder_id = ?;");
+
+                        getItemsBids.setInt(1, userId);
+
+                        rs = getItemsBids.executeQuery();
+                        if (rs != null) {
+                            while (rs.next()) {
+                                String itemName = rs.getString("item_name");
+                                String bidPrice = String.valueOf(rs.getDouble("bid_amount"));
+                                String bidder = rs.getString("username");
+                                String datePosted = rs.getString("created_at");
+                                Bid bid = new Bid(bidPrice, bidder, datePosted, itemName);
+                                bids.add(bid);
+                            }
+
+                        }
+
+                    } catch (SQLException e) {
+                        // Handle SQL exception
+                        e.printStackTrace();
+                    }
+
+                }
+                try {
+                    rs.close();
+                    getUserId.close();
+                    getItemsBids.close();
+                    return bids;
+                } catch (SQLException e1) {
+                    e1.printStackTrace();
+                }
+
+            } catch (SQLException e) {
+                // Handle SQL exception
+                e.printStackTrace();
+            }
+        } catch (SQLException e) {
+            // Handle SQL exception
+            e.printStackTrace();
+        }
+
+        return null;
+
+    }
+
+    public boolean addBidToDB(String username, String itemName, double bidPrice) {
+
+        PreparedStatement getUserAndItemId = null;
+        PreparedStatement addBid = null;
+        ResultSet rs = null;
+
+        try {
+            getUserAndItemId = connection
+                    .prepareStatement("SELECT user_id, item_id FROM users, items WHERE username = ? AND item_name = ?");
+            getUserAndItemId.setString(1, username);
+            getUserAndItemId.setString(2, itemName);
+
+            rs = getUserAndItemId.executeQuery();
+        } catch (SQLException e) {
+            // Handle SQL exception
+            e.printStackTrace();
+        }
+        try {
+            if (rs.next()) {
+                int userId = rs.getInt("user_id");
+                int itemId = rs.getInt("item_id");
+
+                try {
+                    // use userId to insert a new item
+                    addBid = connection
+                            .prepareStatement("INSERT INTO bids (bidder_id, item_id, bid_amount) VALUES (?, ?, ?)");
+                    // Assuming item details are provided as parameters
+                    addBid.setInt(1, userId);
+                    addBid.setInt(2, itemId);
+                    addBid.setDouble(3, bidPrice);
+
+                    // Execute the insert statement
+                    int rowsUpdated = addBid.executeUpdate();
+                    if (rowsUpdated > 0) {
+                        rs.close();
+                        getUserAndItemId.close();
+                        addBid.close();
+                        return true;
+                    }
+
+                } catch (SQLException e) {
+                    // Handle SQL exception
+                    e.printStackTrace();
+                }
+            }
+            rs.close();
+            getUserAndItemId.close();
+            addBid.close();
+        } catch (SQLException e) {
+            // Handle SQL exception
+            e.printStackTrace();
+        }
+
+        return false;
 
     }
 

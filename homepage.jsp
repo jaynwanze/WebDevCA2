@@ -32,15 +32,17 @@
 
             <div class="container">
                 <h1>Hi
-                    <s:property value="#session.currentUser.username" />, you are currently logged in!
+                    <s:property value="#session.currentUser.username" />, you are currently logged in | Home Page
                 </h1>
             </div>
             <!-- Homepage Content Section -->
             <section class="homepage-content">
                 <div class="content-row">
                     <!-- Column 1: View All Bids -->
-                    <div class="content-column">
-                        <h2>View My bids</h2>
+                    <div class="content-display-profile">
+                        <div class="clickable" onclick="viewMyBidsForm()">
+                            <h2>View My bids</h2>
+                        </div>
                     </div>
                     <!-- Column3: View All Items for Sale -->
                     <div class="content-display-profile">
@@ -94,13 +96,13 @@
                 &copy; WebDevCA2 - Jamin Nwanze
             </footer>
 
-        </body> 
+        </body>
 
         <!--Forms -->
         <s:form action="viewAllUsers" method="POST" id="allUsers"></s:form>
         <s:form action="viewAllItemsForSale" method="POST" id="viewItems"></s:form>
         <s:form action="viewMyProfile" method="POST" id="myProfile"></s:form>
-
+        <s:form action="viewMyBids" method="POST" id="myBids"></s:form>
 
         <script>
             window.onload = function () {
@@ -112,10 +114,9 @@
                     errMsg.classList.add('errMsgBox');
                     errMsg.innerHTML = '<s:property value="errorMessage" />'
                 }
-                // Set a timeout to hide the message after 10 seconds
                 setTimeout(function () {
                     errMsg.style.visibility = 'hidden';
-                }, 10000); // 10000 milliseconds = 10 seconds
+                }, 10000); 
             };
 
         </script>

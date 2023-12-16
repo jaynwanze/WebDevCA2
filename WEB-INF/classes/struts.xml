@@ -1,47 +1,57 @@
-<!DOCTYPE struts PUBLIC
-"-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
-"http://struts.apache.org/dtds/struts-2.0.dtd">
+<!DOCTYPE struts PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN" "http://struts.apache.org/dtds/struts-2.0.dtd">
 
 <struts>
     <package name="default" extends="struts-default">
-        <action name="register" class="UserRegistration" method ="register">
+        <action name="register" class="UserRegistration" method="register">
             <result name="SUCCESS">/login.jsp</result>
             <result name="FAILURE">/index.jsp</result>
         </action>
-	<action name="login" class="UserSessionManagement" method ="login">
-        <result name="SUCCESS">/homepage.jsp</result>
-	    <result name="FAILURE">/login.jsp</result>
-    </action>
+        <action name="login" class="UserSessionManagement" method="login">
+            <result name="SUCCESS">/homepage.jsp</result>
+            <result name="FAILURE">/login.jsp</result>
+        </action>
 
-    <action name="logout" class="UserSessionManagement" method ="logout">
-        <result name="SUCCESS">/login.jsp</result>
-	    <result name="FAILURE">/homepage.jsp</result>
-    </action>
+        <action name="logout" class="UserSessionManagement" method="logout">
+            <result name="SUCCESS">/login.jsp</result>
+            <result name="FAILURE">/homepage.jsp</result>
+        </action>
 
-    <action name="logout" class="UserSessionManagement" method ="logout">
-        <result name="SUCCESS">/login.jsp</result>
-	    <result name="FAILURE">/homepage.jsp</result>
-    </action>
-    
-    <action name="viewAllUsers" class="UserProfileActions" method ="viewAllUsers">
-        <result name="SUCCESS">/allprofiles.jsp</result>
-	    <result name="FAILURE">/allprofiles.jsp</result>
-    </action>
-    <action name="viewUserProfile" class="UserProfileActions" method ="viewUserProfile">
-        <result name="SUCCESS">/userprofile.jsp</result>
-	    <result name="FAILURE">/userprofile.jsp</result>
-    </action>
-    <action name="addItemForSale" class="UserItemActions" method ="addItemForSale">
-        <result name="SUCCESS">/additem.jsp</result>
-	    <result name="FAILURE">/additem.jsp</result>
-    </action>
-    <action name="viewAllItemsForSale" class="UserItemActions" method ="viewItemsForSale">
-        <result name="SUCCESS">/allitems.jsp</result>
-        <result name="FAILURE">/allitems.jsp</result>
-    </action>
-    <action name="viewItemAndBids" class="UserItemActions" method ="viewItemAndBids">
-        <result name="SUCCESS">/item.jsp</result>
-        <result name="FAILURE">/allitems.jsp</result>
-    </action>
+        <action name="logout" class="UserSessionManagement" method="logout">
+            <result name="SUCCESS">/login.jsp</result>
+            <result name="FAILURE">/homepage.jsp</result>
+        </action>
+
+        <action name="viewAllUsers" class="UserProfileActions" method="viewAllUsers">
+            <result name="SUCCESS">/allprofiles.jsp</result>
+            <result name="FAILURE">/allprofiles.jsp</result>
+        </action>
+        <action name="viewUserProfile" class="UserProfileActions" method="viewUserProfile">
+            <result name="SUCCESS">/userprofile.jsp</result>
+            <result name="FAILURE">/userprofile.jsp</result>
+        </action>
+        <action name="addItemForSale" class="UserItemActions" method="addItemForSale">
+            <result name="SUCCESS">/additem.jsp</result>
+            <result name="FAILURE">/additem.jsp</result>
+        </action>
+        <action name="viewAllItemsForSale" class="UserItemActions" method="viewItemsForSale">
+            <result name="SUCCESS">/allitems.jsp</result>
+            <result name="FAILURE">/allitems.jsp</result>
+        </action>
+        <action name="viewItemAndBids" class="UserItemActions" method="viewItemAndBids">
+            <result name="SUCCESS">/item.jsp</result>
+            <result name="FAILURE">/allitems.jsp</result>
+        </action>
+        <action name="viewItemAndBids" class="UserItemActions" method="viewItemAndBids">
+            <result name="SUCCESS">/item.jsp</result>
+            <result name="FAILURE">/allitems.jsp</result>
+        </action>
+        <action name="viewMyBids" class="UserBidActions" method="viewMyBids">
+            <result name="SUCCESS">/mybids.jsp</result>
+            <result name="FAILURE">/homepage.jsp</result>
+        </action>
+        <action name="makeBid" class="UserBidActions" method="makeBid">
+            <result name="SUCCESS">/item.jsp</result>
+            <result name="FAILURE">/item.jsp</result>
+        </action>
     </package>
 </struts>

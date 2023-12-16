@@ -6,7 +6,6 @@
             <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
             <link rel="stylesheet" type="text/css" href="css/style1.css">
             <script src="scripts/script.js"></script>
-
             <title>E-Commerce Website</title>
         </head>
         <header>
@@ -19,7 +18,7 @@
                     <a href="homepage.jsp">Home</a>
                     <a href="myprofile.jsp">My Profile</a>
                     <a onclick="viewAllItemsForm()">View Items</a>
-                    <a href="additems.jsp">Add Item</a>
+                    <a href="additem.jsp">Add Item</a>
                     <a onclick="viewAllUsersForm()">View All Users</a>
                 </div>
                 <div>
@@ -28,70 +27,53 @@
                     </s:form>
                 </div>
             </nav>
-
             <div class="container">
                 <h1>Hi
-                    <s:property value="#session.currentUser.username" />, you are currently logged in | User Profile Page
+                    <s:property value="#session.currentUser.username" />, you are currently logged in! | My Bids Page
                 </h1>
-                <h2>User Profile:
-                    <s:property value="user.username" />
+                <h2>My Bids:
                 </h2>
-                <div class="content-row">
-                    <div class="content-display">
-                        <table class="table-profile">
-                            <tr>
-                                <th>Username</th>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <s:property value="user.username" /><br>
-                                </td>
-                            </tr>
-                            <tr>
-                                <th>Email</th>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <s:property value="user.email" /><br>
-                                </td>
-                            </tr>
-                            <tr>
-                                <th>First Name</th>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <s:property value="user.firstName" /><br>
-                                </td>
-                            </tr>
-                            <tr>
-                                <th>Last Name</th>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <s:property value="user.lastName" /><br>
-                                </td>
-                            </tr>
-                            <tr>
-                                <th>Date/Time Joined</th>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <s:property value="user.dateJoined" /><br>
-                                </td>
-                            </tr>
-                        </table>
-
-                    </div>
-                </div>
             </div>
 
-            <section>
+            <section class="homepage-content">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Item Name</th>
+                            <th>Price</th>
+                            <th>Bidder</th>
+                            <th>Date Posted</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <s:iterator value="bids">
+                            <tr>
+                                <td>
+                                    <s:property value="itemName" />
+                                </td>
+                                <td>
+                                    <s:property value="bidPrice" />
+                                </td>
+                                <td>
+                                    <s:property value="bidder" />
+                                </td>
+                                <td>
+                                    <s:property value="datePosted" />
+                                </td>
+                            </tr>
+                        </s:iterator>
+                    </tbody>
+                </table>
                 <div id="errMsgDiv"> </div>
-                </div>
+            </section>
+
         </body>
         <!--Forms -->
         <s:form action="viewAllUsers" method="POST" id="allUsers"></s:form>
         <s:form action="viewAllItemsForSale" method="POST" id="viewItems"></s:form>
+
+
+
 
         </html>
         <script>
@@ -105,4 +87,5 @@
                     errMsg.innerHTML = '<s:property value="errorMessage" />'
                 }
             };
+
         </script>

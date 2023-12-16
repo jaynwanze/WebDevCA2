@@ -31,7 +31,7 @@
 
             <div class="container">
                 <h1>Hi
-                    <s:property value="#session.currentUser.username" />, you are currently logged in!
+                    <s:property value="#session.currentUser.username" />, you are currently logged in | Add Item Page
                 </h1>
                 <section>
                     <div class="content-row">
@@ -82,7 +82,7 @@
                     setTimeout(function () {
                         errMsg.style.visibility = 'hidden';
                         successMsg.style.visibility = 'hidden';
-                    }, 10000); // 10000 milliseconds = 10 seconds
+                    }, 10000); 
                 };
             };
 
