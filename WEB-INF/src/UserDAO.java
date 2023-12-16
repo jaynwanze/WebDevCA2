@@ -477,7 +477,7 @@ public class UserDAO {
                     try {
                         getItemsBids = connection
                                 .prepareStatement(
-                                        "SELECT i.item_name, b.bid_amount, u.username, b.created_at FROM bids b Join items i ON b.item_id = i.item_id JOIN users u ON b.bidder_id = u.user_id WHERE b.bidder_id = ?;");
+                                        "SELECT i.item_name, b.bid_amount, u.username, b.created_at FROM bids b JOIN items i ON b.item_id = i.item_id JOIN users u ON b.bidder_id = u.user_id WHERE b.bidder_id = ?;");
 
                         getItemsBids.setInt(1, userId);
 
