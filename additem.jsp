@@ -84,6 +84,10 @@
                         successMsg.style.visibility = 'hidden';
                     }, 10000); 
                 };
+
+                if ('<s:property value="#session.currentUser" />' === 'undefined' || '<s:property value="#session.currentUser" />' === '') {
+                    window.location.href = 'login.jsp';
+                }
             };
 
         </script>

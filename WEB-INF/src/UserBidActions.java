@@ -63,14 +63,19 @@ public class UserBidActions extends ActionSupport implements SessionAware {
         String currentUser = user.getUsername();
 
         // add validation for double input
-        
-        //add validation for not bidding lower than highest bidder
+
+        // add functionality to home page columns
         if (username.equals(currentUser)) {
             setBidErrorMessage("Error Processing Request: User Cannot Bid On Own Item!");
-        } else if (bidItemPriceDb < doubleItemPrice) {
+        } else if (!(userDAO.getHighestBid(itemName) == null) && bidItemPriceDb <= userDAO.getHighestBid(itemName)) {
+            setBidErrorMessage("Error Processing Request: Must Make Higher Bid Than Highest Bid Price!");
+        }
+        else if (bidItemPriceDb < doubleItemPrice) {
             setBidErrorMessage("Error Processing Request: Cannot Make Lower Than Starting Price!");
         } else if (userDAO.addBidToDB(currentUser, itemName, bidItemPriceDb)) {
             setSuccessMessage("Operation Successful: Bid Was Sucessfully Made For This Item!");
+            ArrayList<Bid> updatedBids = userDAO.getUserBids(currentUser);
+			session.put("currentUserBids", updatedBids);
             result = "SUCCESS";
         } else {
             setBidErrorMessage("Error Processing Request: Unable To Make Bid On This Item");
@@ -81,7 +86,6 @@ public class UserBidActions extends ActionSupport implements SessionAware {
 
         } else {
             setErrorMessage("There Are No Bids On This Item");
-
         }
 
         return result;
@@ -106,7 +110,7 @@ public class UserBidActions extends ActionSupport implements SessionAware {
             setBids(bids);
             return result = "SUCCESS";
         } else if ((userDAO.getUserBids(currentUser)).isEmpty()) {
-            setErrorMessage("There Are No Bids On This Item");
+            setErrorMessage("You Currently Have No Bids");
             return result = "SUCCESS";
         }
         setErrorMessage("Error Processing Request: Unable To Complete Operation!");
@@ -121,7 +125,6 @@ public class UserBidActions extends ActionSupport implements SessionAware {
     public void setBidItemPrice(String bidItemPrice) {
         this.bidItemPrice = bidItemPrice;
     }
-
 
     public String getUsername() {
         return username;

@@ -95,10 +95,6 @@
                             <input type="submit" class="btn">
                         </s:form>
                     </div>
-                <!--MAKE BID -->
-                <!--CAN MAKE BID -->
-                <!--IF SESSION CUREENT USER IS EQUAL TO USERNAME = THE CANT MAKE BID pass current username and session 
-                    and prcie cant be less than price or highest bid-->
                 <section>
 
         </body>
@@ -141,6 +137,10 @@
                     bidErrMsg.style.visibility = 'hidden';
                     successMsg.style.visibility = 'hidden';
                 }, 10000);
+
+                if ('<s:property value="#session.currentUser" />' === 'undefined' || '<s:property value="#session.currentUser" />' === '') {
+                    window.location.href = 'login.jsp';
+                }
             };
 
         </script>

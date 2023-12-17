@@ -63,6 +63,8 @@ public class UserItemActions extends ActionSupport implements SessionAware {
 
         if (userDAO.addItemToDB(username, itemName, itemPriceDb)) {
             setSuccessMessage("Operation Successful: Item Was Added For Sale!");
+            ArrayList<Item> updatedItems = userDAO.getItems();
+			session.put("currentItemsForSale", updatedItems);
             return result = "SUCCESS";
         } else {
             setErrorMessage("Error Processing Request: Unable To Add Item For Sale");

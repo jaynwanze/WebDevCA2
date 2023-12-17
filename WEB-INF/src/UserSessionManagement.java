@@ -1,6 +1,7 @@
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Map;
 
 import org.apache.struts2.interceptor.SessionAware;
@@ -11,10 +12,6 @@ public class UserSessionManagement extends ActionSupport implements SessionAware
 	private String password;
 	private UserDAO userDAO;
 	private Map<String, Object> session;
-	UserProfileActions userProfileActions;
-	UserItemActions userItemActions;
-	UserBidActions userBidActions;
-
 	private String errorMessage;
 	private String logoutMessage;
 	private String successMessage;
@@ -71,15 +68,16 @@ public class UserSessionManagement extends ActionSupport implements SessionAware
 			setSuccessMessage(null);
 			User user = userDAO.getUserProfile(lowercaseUsername);
 			session.put("currentUser", user);
+			ArrayList<Bid> bids = userDAO.getUserBids(lowercaseUsername);
+			session.put("currentUserBids", bids);
+			ArrayList<Item> items = userDAO.getItems();
+			session.put("currentItemsForSale", items);
+
 			return result = "SUCCESS";
 		}
 		// Default error message
 		setErrorMessage("Error Processing Request: Not Able To Add User Within Database");
 		setSuccessMessage(null);
-
-		// Reset user input
-		setUsername(null);
-		setPassword(null);
 
 		return result;
 

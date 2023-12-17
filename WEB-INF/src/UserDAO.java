@@ -307,7 +307,7 @@ public class UserDAO {
 
         try {
             getItemsFromDB = connection.prepareStatement(
-                    "SELECT item_name, price, username, i.created_at FROM items i ,users u WHERE seller_id = user_id");
+                    "SELECT i.item_name, i.price, u.username, i.created_at FROM items i JOIN users u ON seller_id = user_id");
             rs = getItemsFromDB.executeQuery();
         } catch (SQLException e1) {
             e1.printStackTrace();
@@ -416,7 +416,7 @@ public class UserDAO {
                     try {
                         getItemsBids = connection
                                 .prepareStatement(
-                                        "SELECT b.bid_amount, u.username, b.created_at FROM bids b, users u WHERE b.item_id = ? AND u.user_id = b.bidder_id");
+                                        "SELECT b.bid_amount, u.username, b.created_at FROM bids b JOIN users u ON u.user_id = b.bidder_id JOIN items i ON b.item_id = i.item_id WHERE b.item_id = ?;");
 
                         getItemsBids.setInt(1, itemId);
 
@@ -443,6 +443,59 @@ public class UserDAO {
                     getItemId.close();
                     getItemsBids.close();
                     return bids;
+                } catch (SQLException e1) {
+                    e1.printStackTrace();
+                }
+
+            } catch (SQLException e) {
+                // Handle SQL exception
+                e.printStackTrace();
+            }
+        } catch (SQLException e) {
+            // Handle SQL exception
+            e.printStackTrace();
+        }
+
+        return null;
+
+    }
+
+    public Double getHighestBid(String itemName) {
+        PreparedStatement getItemId = null;
+        PreparedStatement getHighestBid = null;
+        ResultSet rs = null;
+
+        try {
+            getItemId = connection.prepareStatement("SELECT item_id FROM items WHERE item_name = ?");
+            getItemId.setString(1, itemName);
+            rs = getItemId.executeQuery();
+            try {
+                if (rs.next()) {
+                    int itemId = rs.getInt("item_id");
+
+                    try {
+                        getHighestBid = connection
+                                .prepareStatement(
+                                        "SELECT b.bid_amount FROM bids b JOIN users u ON b.bidder_id = u.user_id WHERE b.item_id = ? ORDER BY b.bid_amount DESC LIMIT 1;");
+
+                        getHighestBid.setInt(1, itemId);
+
+                        rs = getHighestBid.executeQuery();
+                        if (rs.next()) {
+                            Double bidPrice = (rs.getDouble("bid_amount"));
+                            return bidPrice;
+                        }
+
+                    } catch (SQLException e) {
+                        // Handle SQL exception
+                        e.printStackTrace();
+                    }
+
+                }
+                try {
+                    rs.close();
+                    getItemId.close();
+                    getHighestBid.close();
                 } catch (SQLException e1) {
                     e1.printStackTrace();
                 }
