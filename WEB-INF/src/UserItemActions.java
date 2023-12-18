@@ -50,7 +50,7 @@ public class UserItemActions extends ActionSupport implements SessionAware {
     public String addItemForSale() {
         setErrorMessage(null);
         setSuccessMessage(null);
-        double itemPriceDb = Double.parseDouble(itemPrice);
+        ArrayList<Item> updatedItems;
         String username;
         String result = "FAILURE";
         Connection connection = getConnection();
@@ -59,12 +59,19 @@ public class UserItemActions extends ActionSupport implements SessionAware {
         user = (User) session.get("currentUser");
         username = user.getUsername();
 
-        // add validation for double input
+        try {
+            Double.parseDouble(itemPrice);
+
+        } catch (NumberFormatException e) {
+            setErrorMessage("Error Processing Request: Item Price Must Be Integer Or Double Format!");
+            return result;
+        }
+        double itemPriceDb = Double.parseDouble(itemPrice);
 
         if (userDAO.addItemToDB(username, itemName, itemPriceDb)) {
             setSuccessMessage("Operation Successful: Item Was Added For Sale!");
-            ArrayList<Item> updatedItems = userDAO.getItems();
-			session.put("currentItemsForSale", updatedItems);
+            updatedItems = userDAO.getItems();
+            session.put("currentItemsForSale", updatedItems);
             return result = "SUCCESS";
         } else {
             setErrorMessage("Error Processing Request: Unable To Add Item For Sale");

@@ -52,30 +52,40 @@ public class UserBidActions extends ActionSupport implements SessionAware {
         setSuccessMessage(null);
         setBidErrorMessage(null);
 
-        double bidItemPriceDb = Double.parseDouble(bidItemPrice);
-        double doubleItemPrice = Double.parseDouble(itemPrice);
-
         String result = "FAILURE";
+        ArrayList<Bid> updatedBids;
+        double doubleItemPrice = Double.parseDouble(itemPrice);
         Connection connection = getConnection();
         // Create new userDAO instance
         userDAO = new UserDAO(connection);
         user = (User) session.get("currentUser");
         String currentUser = user.getUsername();
 
-        // add validation for double input
+        try {
+            Double.parseDouble(bidItemPrice);
 
-        // add functionality to home page columns
+        } catch (NumberFormatException e) {
+            setBidErrorMessage("Error Processing Request: Bid Price Must Be Integer Or Double Format!");
+            if (!(userDAO.getItemsBids(itemName).isEmpty())) {
+                setBids(userDAO.getItemsBids(itemName));
+
+            } else {
+                setErrorMessage("There Are No Bids On This Item");
+            }
+            return result;
+        }
+        double bidItemPriceDb = Double.parseDouble(bidItemPrice);
+
         if (username.equals(currentUser)) {
             setBidErrorMessage("Error Processing Request: User Cannot Bid On Own Item!");
         } else if (!(userDAO.getHighestBid(itemName) == null) && bidItemPriceDb <= userDAO.getHighestBid(itemName)) {
             setBidErrorMessage("Error Processing Request: Must Make Higher Bid Than Highest Bid Price!");
-        }
-        else if (bidItemPriceDb < doubleItemPrice) {
+        } else if (bidItemPriceDb < doubleItemPrice) {
             setBidErrorMessage("Error Processing Request: Cannot Make Lower Than Starting Price!");
         } else if (userDAO.addBidToDB(currentUser, itemName, bidItemPriceDb)) {
             setSuccessMessage("Operation Successful: Bid Was Sucessfully Made For This Item!");
-            ArrayList<Bid> updatedBids = userDAO.getUserBids(currentUser);
-			session.put("currentUserBids", updatedBids);
+            updatedBids = userDAO.getUserBids(currentUser);
+            session.put("currentUserBids", updatedBids);
             result = "SUCCESS";
         } else {
             setBidErrorMessage("Error Processing Request: Unable To Make Bid On This Item");

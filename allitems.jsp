@@ -40,16 +40,16 @@
                             <s:form action="viewItemAndBids" method="POST" id="itemAndBids">
                                 <div class="stock-item">
                                     <label>Item Name:</label>
-                                    <s:property value="itemName" />
+                                    <text><s:property value="itemName" /></text>
                                     <input type="hidden" name="itemName" value='<s:property value="itemName" />' />
                                     <label>Item Price:</label>
-                                    <s:property value="itemPrice" />
+                                    <text><s:property value="itemPrice" /></text>
                                     <input type="hidden" name="itemPrice" value='<s:property value="itemPrice" />' />
                                     <label>Seller:</label>
-                                    <s:property value="username" />
+                                    <text><s:property value="username" /></text>
                                     <input type="hidden" name="username" value='<s:property value="username" />' />
                                     <label>Date Posted:</label>
-                                    <s:property value="datePosted" />
+                                    <text><s:property value="datePosted" /></text>
                                     <input type="hidden" name="datePosted" value='<s:property value="datePosted" />' />
                                     <button type="submit" class="classButton" onclick="viewItemAndBidsForm()">View
                                         Item</button>
@@ -82,7 +82,7 @@
                     errMsg.innerHTML = '<s:property value="errorMessage" />'
                 }
 
-                if ('<s:property value="#session.currentUser" />' === 'undefined' || '<s:property value="#session.currentUser" />' === '') {
+                if ('<s:property value="#session.currentUser" />' === '') {
                     window.location.href = 'login.jsp';
                 }
             };

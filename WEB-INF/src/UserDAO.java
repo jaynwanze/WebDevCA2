@@ -365,15 +365,12 @@ public class UserDAO {
             if (rs.next()) {
                 int userId = rs.getInt("user_id");
                 try {
-                    // use userId to insert a new item
                     addItem = connection
                             .prepareStatement("INSERT INTO items (seller_id, item_name, price) VALUES (?, ?, ?)");
-                    // Assuming item details are provided as parameters
                     addItem.setInt(1, userId);
                     addItem.setString(2, itemName);
                     addItem.setDouble(3, itemPrice);
 
-                    // Execute the insert statement
                     int rowsUpdated = addItem.executeUpdate();
                     if (rowsUpdated > 0) {
                         rs.close();

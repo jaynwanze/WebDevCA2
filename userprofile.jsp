@@ -105,7 +105,7 @@
                     errMsg.innerHTML = '<s:property value="errorMessage" />'
                 }
 
-                if ('<s:property value="#session.currentUser" />' === 'undefined' || '<s:property value="#session.currentUser" />' === '') {
+                if ('<s:property value="#session.currentUser" />' === '') {
                     window.location.href = 'login.jsp';
                 }
             };

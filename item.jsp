@@ -39,13 +39,13 @@
                     <div class="stock-item-container">
                         <div class="view-item">
                             <label>Item Name:</label>
-                            <s:property value="itemName" />
+                            <text><s:property value="itemName" /></text>
                             <label>Item Price:</label>
-                            <s:property value="itemPrice" />
+                            <text><s:property value="itemPrice" /></text>
                             <label>Seller:</label>
-                            <s:property value="username" />
+                            <text><s:property value="username" /></text>
                             <label>Date Posted:</label>
-                            <s:property value="datePosted" />
+                            <text><s:property value="datePosted" /></text>
                             </form>
                         </div>
                     </div>
@@ -138,7 +138,7 @@
                     successMsg.style.visibility = 'hidden';
                 }, 10000);
 
-                if ('<s:property value="#session.currentUser" />' === 'undefined' || '<s:property value="#session.currentUser" />' === '') {
+                if ('<s:property value="#session.currentUser" />' === '') {
                     window.location.href = 'login.jsp';
                 }
             };

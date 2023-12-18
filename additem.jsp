@@ -78,14 +78,15 @@
                     successMsg.style.visibility = 'visible';
                     successMsg.classList.add('successMsgBox');
                     successMsg.innerHTML = '<s:property value="successMessage" />';
-                    // Set a timeout to hide the message after 10 seconds
-                    setTimeout(function () {
-                        errMsg.style.visibility = 'hidden';
-                        successMsg.style.visibility = 'hidden';
-                    }, 10000); 
-                };
 
-                if ('<s:property value="#session.currentUser" />' === 'undefined' || '<s:property value="#session.currentUser" />' === '') {
+                }
+                // Set a timeout to hide the message after 10 seconds
+                setTimeout(function () {
+                    errMsg.style.visibility = 'hidden';
+                    successMsg.style.visibility = 'hidden';
+                }, 10000);
+
+                if ('<s:property value="#session.currentUser" />' === '') {
                     window.location.href = 'login.jsp';
                 }
             };

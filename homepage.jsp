@@ -83,16 +83,16 @@
                                 <s:form action="viewItemAndBids" method="POST" id="itemAndBids">
                                     <div class="stock-item">
                                         <label>Item Name:</label>
-                                        <s:property value="#currentItem.itemName" />
+                                        <text><s:property value="#currentItem.itemName" /></text>
                                         <input type="hidden" name="itemName" value='<s:property value="#currentItem.itemName" />' />
-                                        <label>Item Price:</label>
-                                        <s:property value="#currentItem.itemPrice" />
+                                        <label>Item Price:</label></text>
+                                        <text><s:property value="#currentItem.itemPrice" /></text>
                                         <input type="hidden" name="itemPrice" value='<s:property value="#currentItem.itemPrice" />' />
-                                        <label>Seller:</label>
-                                        <s:property value="#currentItem.username" />
+                                        <label>Seller:</label></text>
+                                        <text><s:property value="#currentItem.username" /></text>
                                         <input type="hidden" name="username" value='<s:property value="#currentItem.username" />' />
                                         <label>Date Posted:</label>
-                                        <s:property value="#currentItem.datePosted" />
+                                        <text><s:property value="#currentItem.datePosted" /></text>
                                         <input type="hidden" name="datePosted" value='<s:property value="#currentItem.datePosted" />' />
                                         <button type="submit" class="classButton" onclick="viewItemAndBidsForm()">View
                                             Item</button>
@@ -167,15 +167,15 @@
                 }
 
                 var noBidsErrMsg = document.getElementById('noBidsErrMsgDiv');
-                if ('<s:property value="bids" />'.length == 0 ) {
+                if ('<s:property value="#session.currentUserBids" />' === '[]') {
                     noBidsErrMsg.style.visibility = 'visible';
                     noBidsErrMsg.classList.add('errMsgBox');
                     noBidsErrMsg.innerHTML = "You Currently Have No Bids";
-                } else if('<s:property value="bids" />'.length > 0 ){
+                } else {
                     noBidsErrMsg.style.visibility = 'hidden';
                 }
 
-                if ('<s:property value="#session.currentUser" />' === 'undefined' || '<s:property value="#session.currentUser" />' === '') {
+                if ('<s:property value="#session.currentUser" />' === '') {
                     window.location.href = 'login.jsp';
                 }
                 

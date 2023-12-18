@@ -85,7 +85,7 @@ public class UserSessionManagement extends ActionSupport implements SessionAware
 
 	public String logout() {
 		String result = "FAILURE";
-		session.clear();// clear session detail
+		session.clear();// clear session details
 
 		if (session.isEmpty()) {
 			setErrorMessage(null);
@@ -93,7 +93,7 @@ public class UserSessionManagement extends ActionSupport implements SessionAware
 			return result = "SUCCESS";
 		}
 		setErrorMessage("Error Processing Request: Unable to Log User Out Of Session");
-		return result;// show some type of error message
+		return result;
 	}
 
 	public String getUsername() {
